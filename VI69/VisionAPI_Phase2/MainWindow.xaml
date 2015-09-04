@@ -1,0 +1,13 @@
+﻿<Window x:Class="MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button Content="Find" Margin="0,14,10,0" VerticalAlignment="Top" Click="Button_Click" HorizontalAlignment="Right" Width="81"/>
+        <TextBox x:Name="txtSearchString" Height="23" Margin="98,13,96,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <Label Content="Search For:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="lstResults" Margin="10,74,10,10"/>
+        <Label Content="Results:" HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
