@@ -63,9 +63,10 @@ Public Class VisionAPIHelper
         If NextChunk > 0 Then
             retval = <InfoCenters>
                          <InfoCenter
-                             ID=<%= CInt(infoCenter) %>
+                             ID="1"
                              Name=<%= [Enum].GetName(GetType(VisionInfoCenters), infoCenter) %>
                              RowAccess=<%= IIf(RowAccess, "1", "0") %>
+                             PartialAccess="1"
                              Chunk=<%= NextChunk %>
                              ChunkSize=<%= ChunkSize %>
                              >
@@ -77,12 +78,52 @@ Public Class VisionAPIHelper
                          <InfoCenter
                              ID=<%= CInt(infoCenter) %>
                              Name=<%= [Enum].GetName(GetType(VisionInfoCenters), infoCenter) %>
-                             RowAccess=<%= IIf(RowAccess, "1", "0") %>>
+                             RowAccess=<%= IIf(RowAccess, "1", "0") %>
+                             PartialAccess="1">
                              <%= tableInfo %>
                          </InfoCenter>
                      </InfoCenters>
 
         End If
+        Return retval.ToString
+    End Function
+
+    Public Function GetKeysXML(ParamArray keys() As String) As String
+        Dim retval As XElement
+        Dim counter As Integer = 1
+        retval = <KeyValues></KeyValues>
+
+        For Each key In keys
+            Dim xKey As XElement = <Keys ID=<%= counter %>>
+                                       <Key>
+                                           <Fld><%= key %></Fld>
+                                       </Key>
+                                   </Keys>
+            retval.Add(xKey)
+            counter += 1
+        Next
+
+        Return retval.ToString
+    End Function
+
+    Public Function GetKeysXML(ParamArray keys() As VisionKey) As String
+        Dim retval As XElement
+        Dim counter As Integer = 1
+        retval = <KeyValues></KeyValues>
+
+        For Each key In keys
+            Dim xKey As XElement = <Keys ID=<%= counter %>>
+                                       <Key></Key>
+                                   </Keys>
+
+            For Each subkey In key.SubKeys
+                xKey.Element("Keys").Element("Key").Add(<Fld><%= subkey %></Fld>)
+            Next
+
+            retval.Add(xKey)
+            counter += 1
+        Next
+
         Return retval.ToString
     End Function
 
